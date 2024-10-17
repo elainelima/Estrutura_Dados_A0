@@ -6,17 +6,4 @@
 #define erroAssert(e,m) ((void) ((e)?0: __erroassert (#e,__FILE__,__LINE__,m)))
 #define __erroassert(e,file,line,m) ((void) fprintf(stderr,"%s:%u: Erro '%s' - %s\n",file,line,e,m), abort(),0)
 
-#define MAXTAM 5
-
-typedef struct mat{
-	double m[MAXTAM][MAXTAM];
-	int tamx, tamy;
-	int id;
-} mat_tipo;
-
-// limite superior da inicializacao aleatoria
-#define INITRANDOMRANGE 10
-// Macro que realiza swap sem variavel auxiliar
-#define ELEMSWAP(x,y) (x+=y,y=x-y,x-=y)
-
 #endif

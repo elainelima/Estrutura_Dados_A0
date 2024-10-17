@@ -1,11 +1,10 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <math.h>
-#include "include/math.hpp"
-#include "include/msgassert.hpp"
+#include "../include/math.hpp"
+#include "../include/msgassert.hpp"
 #include <string.h>
 #include <getopt.h>
-#include 
 
 
 int main(int argc, char ** argv)

@@ -3,24 +3,8 @@
 #include <math.h>
 #include <string.h>
 #include <getopt.h>
-
-#define avisoAssert(e,m) ((void) ((e)?0: __avisoassert (#e,__FILE__,__LINE__,m)))
-#define __avisoassert(e,file,line,m) ((void) fprintf(stderr,"%s:%u: Aviso: '%s' - %s\n",file,line,e,m),0)
-#define erroAssert(e,m) ((void) ((e)?0: __erroassert (#e,__FILE__,__LINE__,m)))
-#define __erroassert(e,file,line,m) ((void) fprintf(stderr,"%s:%u: Erro '%s' - %s\n",file,line,e,m), abort(),0)
-
-#define MAXTAM 5
-
-typedef struct mat{
-	double m[MAXTAM][MAXTAM];
-	int tamx, tamy;
-	int id;
-} mat_tipo;
-
-// limite superior da inicializacao aleatoria
-#define INITRANDOMRANGE 10
-// Macro que realiza swap sem variavel auxiliar
-#define ELEMSWAP(x,y) (x+=y,y=x-y,x-=y)
+#include "../../include/math.hpp"
+#include "../../include/msgassert.hpp"
 
 void criaMatriz(mat_tipo * mat, int tx, int ty, int id)
 // Descricao: cria matriz com dimensoes tx X ty
