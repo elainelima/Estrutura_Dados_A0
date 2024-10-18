@@ -3,8 +3,16 @@
 #include <math.h>
 #include <string.h>
 #include <getopt.h>
-#include "../../include/math.hpp"
-#include "../../include/msgassert.hpp"
+#include "../include/math.hpp"
+#include "../include/msgassert.hpp"
+
+
+
+// limite superior da inicializacao aleatoria
+#define INITRANDOMRANGE 10
+// Macro que realiza swap sem variavel auxiliar
+#define ELEMSWAP(x,y) (x+=y,y=x-y,x-=y)  
+#define MAXTAM 5
 
 void criaMatriz(mat_tipo * mat, int tx, int ty, int id)
 // Descricao: cria matriz com dimensoes tx X ty
@@ -238,89 +246,3 @@ void destroiMatriz(mat_tipo *a)
   a->id = a->tamx = a->tamy = -1;
 }
 
-// definicoes de operacoes a serem testadas
-#define OPSOMAR 1
-#define OPMULTIPLICAR 2
-#define OPTRANSPOR 3
-#define OPCRIAR 4
-
-// variaveis globais para opcoes
-static int opescolhida;
-char outnome[100];
-int optx, opty;
-
-void uso()
-// Descricao: imprime as opcoes de uso
-// Entrada: nao tem
-// Saida: impressao das opcoes de linha de comando
-{
-  fprintf(stderr,"matop\n");
-  fprintf(stderr,"\t-s \t(somar matrizes) \n");
-  fprintf(stderr,"\t-m \t(multiplicar matrizes) \n");
-  fprintf(stderr,"\t-t \t(transpor matriz)\n");
-  fprintf(stderr,"\t-c <arq> \t(cria matriz e salva em arq)\n");
-  fprintf(stderr,"\t-x <int>\t(primeira dimensao)\n");
-  fprintf(stderr,"\t-y <int>\t(segunda dimensao)\n");
-}
-
-
-void parse_args(int argc,char ** argv)
-// Descricao: le as opcoes da linha de comando e inicializa variaveis
-// Entrada: argc e argv
-// Saida: optescolhida, optx, opty
-{
-     // variaveis externas do getopt
-     extern char * optarg;
-     extern int optind;
-
-     // variavel auxiliar
-     int c;
-
-     // inicializacao variaveis globais para opcoes
-     opescolhida = -1;
-     optx = -1;
-     opty = -1;
-     outnome[0] = 0;
-
-     // getopt - letra indica a opcao, : junto a letra indica parametro
-     // no caso de escolher mais de uma operacao, vale a ultima
-     while ((c = getopt(argc, argv, "smtc:p:x:y:lh")) != EOF){
-       switch(c) {
-         case 'm':
-		  avisoAssert(opescolhida==-1,"Mais de uma operacao escolhida");
-	          opescolhida = OPMULTIPLICAR;
-                  break;
-         case 's':
-		  avisoAssert(opescolhida==-1,"Mais de uma operacao escolhida");
-	          opescolhida = OPSOMAR;
-                  break;
-         case 't':
-		  avisoAssert(opescolhida==-1,"Mais de uma operacao escolhida");
-	          opescolhida = OPTRANSPOR;
-                  break;
-         case 'c':
-		  avisoAssert(opescolhida==-1,"Mais de uma operacao escolhida");
-	          opescolhida = OPCRIAR;
-	          strcpy(outnome,optarg);
-                  break;
-         case 'x': 
-	          optx = atoi(optarg);
-		  break;
-         case 'y': 
-	          opty = atoi(optarg);
-		  break;
-         case 'h':
-         default:
-                  uso();
-                  exit(1);
-
-       }
-     }
-     // verificacao da consistencia das opcoes
-     erroAssert(opescolhida>0,"matop - necessario escolher operacao");
-     erroAssert(optx>0,"matop - dimensao X da matriz tem que ser positiva");
-     erroAssert(opty>0,"matop - dimensao Y da matriz tem que ser positiva");
-     if (opescolhida==OPCRIAR){
-       erroAssert(strlen(outnome)>0, "matop - nome de arquivo de saida tem que ser definido");
-     }
-}

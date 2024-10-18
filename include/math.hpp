@@ -3,16 +3,21 @@
 
 #define MAXTAM 5
 
+
+#include <stdlib.h>
+#include <stdio.h>
+#include <math.h>
+#include <string.h>
+#include <getopt.h>
+#include "../include/msgassert.hpp"
+
 typedef struct mat{
 	double m[MAXTAM][MAXTAM];
 	int tamx, tamy;
 	int id;
 } mat_tipo;
 
-// limite superior da inicializacao aleatoria
-#define INITRANDOMRANGE 10
-// Macro que realiza swap sem variavel auxiliar
-#define ELEMSWAP(x,y) (x+=y,y=x-y,x-=y)
+
 
 void criaMatriz(mat_tipo * mat, int tx, int ty, int id);
 
@@ -41,5 +46,9 @@ void transpoeMatriz(mat_tipo *a);
 void destroiMatriz(mat_tipo *a);
 
 void parse_args(int argc,char ** argv);
+
+void somaMatrizes(mat_tipo *a, mat_tipo *b, mat_tipo *c);
+
+void uso();
 
 #endif
